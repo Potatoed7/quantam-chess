@@ -27,20 +27,6 @@ const coinEl = document.getElementById("coin");
 const coinDesc = document.getElementById("coin-flip-desc");
 const coinResultText = document.getElementById("coin-result-text");
 const coinFlipBtn = document.getElementById("coin-flip-btn");
-const CAPTURE_SYMBOLS = {
-    K: "♔",
-    Q: "♕",
-    R: "♖",
-    B: "♗",
-    N: "♘",
-    P: "♙",
-    k: "♚",
-    q: "♛",
-    r: "♜",
-    b: "♝",
-    n: "♞",
-    p: "♟",
-};
 
 function setBoardSize() {
     const viewportWidth = window.innerWidth;
@@ -66,7 +52,7 @@ function render() {
     renderBoard();
     renderStatus();
     renderHistory();
-    renderSuccessfulCapturedPanel();
+    renderCaptured();
     renderQuantumPanel();
 
     if (state.winner || state.is_checkmate || state.is_stalemate) {
@@ -221,52 +207,6 @@ function renderCaptured() {
             whiteCaptured.push(match[1]);
         } else {
             blackCaptured.push(match[1]);
-        }
-    }
-
-    capturedWhite.textContent = whiteCaptured.join(" ") || "-";
-    capturedBlack.textContent = blackCaptured.join(" ") || "-";
-}
-
-function renderCapturedPanel() {
-    const whiteCaptured = [];
-    const blackCaptured = [];
-    const pieceCapturePattern = /[×x]([♔♕♖♗♘♙♚♛♜♝♞♟KQRBNPkqrbnp])/gu;
-
-    for (const move of state.history) {
-        const matches = [...move.text.matchAll(pieceCapturePattern)];
-        if (matches.length === 0) {
-            continue;
-        }
-
-        const capturedPiece = matches[matches.length - 1][1];
-        if (move.color === "white") {
-            whiteCaptured.push(capturedPiece);
-        } else {
-            blackCaptured.push(capturedPiece);
-        }
-    }
-
-    capturedWhite.textContent = whiteCaptured.join(" ") || "-";
-    capturedBlack.textContent = blackCaptured.join(" ") || "-";
-}
-
-function renderSuccessfulCapturedPanel() {
-    const whiteCaptured = [];
-    const blackCaptured = [];
-
-    for (let index = 0; index < board.moveHistory.length; index += 1) {
-        const move = board.moveHistory[index];
-        if (!move.captured) {
-            continue;
-        }
-
-        const capturedSymbol = CAPTURE_SYMBOLS[move.captured] || move.captured;
-        const moverColor = index % 2 === 0 ? "white" : "black";
-        if (moverColor === "white") {
-            whiteCaptured.push(capturedSymbol);
-        } else {
-            blackCaptured.push(capturedSymbol);
         }
     }
 

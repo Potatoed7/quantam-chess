@@ -1166,8 +1166,6 @@ export class Board {
                 move_number: Math.floor(index / 2) + 1,
                 color: index % 2 === 0 ? "white" : "black",
                 text,
-                captured_piece: move.captured || null,
-                captured_symbol: move.captured ? (DISPLAY_PIECES[move.captured] || move.captured) : null,
             };
         });
 
