@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Quantum Chess — A chess variant with quantum piece splitting and probabilistic captures">
+    <title>♛ Quantum Chess</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <div class="app">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <span class="logo-icon">♛</span>
+                <h1>Quantum Chess</h1>
+            </div>
+            <button id="reset-btn" class="btn-reset" title="New Game">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="23 4 23 10 17 10"></polyline>
+                    <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+                </svg>
+                New Game
+            </button>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main">
+            <!-- Left: Status + Captured -->
+            <aside class="sidebar sidebar-left">
+                <div class="panel status-panel">
+                    <div class="panel-header">
+                        <div class="status-dot" id="status-dot"></div>
+                        <span id="turn-label">White to move</span>
+                    </div>
+                    <div id="status-message" class="status-message"></div>
+                </div>
+
+                <!-- Quantum action panel -->
+                <div class="panel quantum-panel" id="quantum-panel" style="display:none;">
+                    <h3>⚛ Quantum Actions</h3>
+                    <button id="split-btn" class="btn-split" title="Split the selected piece into two quantum halves">
+                        ⚛ Split Piece
+                    </button>
+                    <p class="quantum-hint" id="quantum-hint">Select a piece to split</p>
+                </div>
+
+                <div class="panel captured-panel">
+                    <h3>Captured Pieces</h3>
+                    <div class="captured-group">
+                        <label>By White</label>
+                        <div id="captured-white" class="captured-pieces"></div>
+                    </div>
+                    <div class="captured-group">
+                        <label>By Black</label>
+                        <div id="captured-black" class="captured-pieces"></div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Center: Board -->
+            <section class="board-container">
+                <div class="board-wrapper">
+                    <div class="rank-labels">
+                        <span>8</span><span>7</span><span>6</span><span>5</span>
+                        <span>4</span><span>3</span><span>2</span><span>1</span>
+                    </div>
+                    <div id="chessboard" class="chessboard"></div>
+                    <div class="rank-labels">
+                        <span>8</span><span>7</span><span>6</span><span>5</span>
+                        <span>4</span><span>3</span><span>2</span><span>1</span>
+                    </div>
+                </div>
+                <div class="file-labels">
+                    <span></span>
+                    <div class="file-labels-inner">
+                        <span>a</span><span>b</span><span>c</span><span>d</span>
+                        <span>e</span><span>f</span><span>g</span><span>h</span>
+                    </div>
+                    <span></span>
+                </div>
+            </section>
+
+            <!-- Right: Move History -->
+            <aside class="sidebar sidebar-right">
+                <div class="panel history-panel">
+                    <h3>Move History</h3>
+                    <div id="move-history" class="move-history">
+                        <div class="history-empty">No moves yet</div>
+                    </div>
+                </div>
+            </aside>
+        </main>
+    </div>
+
+    <!-- Game Over Overlay -->
+    <div id="game-over-overlay" class="overlay hidden">
+        <div class="overlay-content">
+            <div id="game-over-icon" class="overlay-icon">♔</div>
+            <h2 id="game-over-title">Checkmate!</h2>
+            <p id="game-over-subtitle">White wins</p>
+            <button id="game-over-reset" class="btn-play-again">Play Again</button>
+        </div>
+    </div>
+
+    <!-- Coin Flip Overlay -->
+    <div id="coin-flip-overlay" class="overlay hidden">
+        <div class="overlay-content coin-flip-content">
+            <h2 class="coin-title">⚛ Quantum Capture!</h2>
+            <p id="coin-flip-desc" class="coin-desc">A quantum piece is involved...</p>
+            <div id="coin" class="coin">
+                <div class="coin-face coin-heads">👑</div>
+                <div class="coin-face coin-tails">👻</div>
+            </div>
+            <p id="coin-result-text" class="coin-result-text"></p>
+            <button id="coin-flip-btn" class="btn-coin-flip">Flip the Coin</button>
+        </div>
+    </div>
+
+    <script type="module" src="./app.js"></script>
+</body>
+</html>
