@@ -52,7 +52,7 @@ function render() {
     renderBoard();
     renderStatus();
     renderHistory();
-    renderCapturedPanel();
+    renderSuccessfulCapturedPanel();
     renderQuantumPanel();
 
     if (state.winner || state.is_checkmate || state.is_stalemate) {
@@ -230,6 +230,26 @@ function renderCapturedPanel() {
             whiteCaptured.push(capturedPiece);
         } else {
             blackCaptured.push(capturedPiece);
+        }
+    }
+
+    capturedWhite.textContent = whiteCaptured.join(" ") || "-";
+    capturedBlack.textContent = blackCaptured.join(" ") || "-";
+}
+
+function renderSuccessfulCapturedPanel() {
+    const whiteCaptured = [];
+    const blackCaptured = [];
+
+    for (const move of state.history) {
+        if (!move.captured_symbol) {
+            continue;
+        }
+
+        if (move.color === "white") {
+            whiteCaptured.push(move.captured_symbol);
+        } else {
+            blackCaptured.push(move.captured_symbol);
         }
     }
 
