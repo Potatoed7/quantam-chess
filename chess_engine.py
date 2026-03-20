@@ -863,6 +863,7 @@ class Board:
                     partner_pos = self.get_partner_pos(tr, tc)
                     self._recombine_vanish(captured_id)
                     # Defender fake, so attacker just takes the empty square
+                    self._collapse_real_quantum_attacker(moving_id)
                     self.board[tr][tc] = moving
                     self.piece_ids[tr][tc] = moving_id
                     self.board[fr][fc] = None
@@ -886,7 +887,8 @@ class Board:
                 # Capture succeeds
                 if defender_quantum:
                     self._remove_quantum_pair(captured_id, tr, tc, special)
-                
+
+                self._collapse_real_quantum_attacker(moving_id)
                 self.board[tr][tc] = moving
                 self.piece_ids[tr][tc] = moving_id
                 self.board[fr][fc] = None
@@ -945,6 +947,25 @@ class Board:
         self.quantum_halves.discard(partner_id)
         if piece_id in self.quantum_pairs:
             del self.quantum_pairs[piece_id]
+        if partner_id in self.quantum_pairs:
+            del self.quantum_pairs[partner_id]
+
+    def _collapse_real_quantum_attacker(self, piece_id):
+        """Collapse a real attacking quantum piece into a single full piece."""
+        if piece_id not in self.quantum_pairs:
+            return
+
+        partner_id = self.quantum_pairs[piece_id]
+        for pr in range(8):
+            for pc in range(8):
+                if self.piece_ids[pr][pc] == partner_id:
+                    self.board[pr][pc] = None
+                    self.piece_ids[pr][pc] = None
+                    break
+
+        self.quantum_halves.discard(piece_id)
+        self.quantum_halves.discard(partner_id)
+        del self.quantum_pairs[piece_id]
         if partner_id in self.quantum_pairs:
             del self.quantum_pairs[partner_id]
 
