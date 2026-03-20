@@ -27,6 +27,20 @@ const coinEl = document.getElementById("coin");
 const coinDesc = document.getElementById("coin-flip-desc");
 const coinResultText = document.getElementById("coin-result-text");
 const coinFlipBtn = document.getElementById("coin-flip-btn");
+const CAPTURE_SYMBOLS = {
+    K: "♔",
+    Q: "♕",
+    R: "♖",
+    B: "♗",
+    N: "♘",
+    P: "♙",
+    k: "♚",
+    q: "♛",
+    r: "♜",
+    b: "♝",
+    n: "♞",
+    p: "♟",
+};
 
 function setBoardSize() {
     const viewportWidth = window.innerWidth;
@@ -241,15 +255,18 @@ function renderSuccessfulCapturedPanel() {
     const whiteCaptured = [];
     const blackCaptured = [];
 
-    for (const move of state.history) {
-        if (!move.captured_symbol) {
+    for (let index = 0; index < board.moveHistory.length; index += 1) {
+        const move = board.moveHistory[index];
+        if (!move.captured) {
             continue;
         }
 
-        if (move.color === "white") {
-            whiteCaptured.push(move.captured_symbol);
+        const capturedSymbol = CAPTURE_SYMBOLS[move.captured] || move.captured;
+        const moverColor = index % 2 === 0 ? "white" : "black";
+        if (moverColor === "white") {
+            whiteCaptured.push(capturedSymbol);
         } else {
-            blackCaptured.push(move.captured_symbol);
+            blackCaptured.push(capturedSymbol);
         }
     }
 
