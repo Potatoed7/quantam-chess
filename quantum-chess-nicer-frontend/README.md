@@ -1,5 +1,7 @@
 # Quantum Chess Full Frontend
 
+Test the github pages at https://potatoed7.github.io/quantam-chess/quantum-chess-nicer-frontend/
+
 This folder contains a fully static browser version of the project so it can be deployed to GitHub Pages.
 
 ## Files
